@@ -15,4 +15,5 @@ urlpatterns = [
   path('get-all-ratings/<int:productid>', views.GetAllRatingbyproduct.as_view()),
   path('my-favorite-products', views.MyFavoriteProducts.as_view()),
   path('my-favorite-products/<int:productid>', views.MyFavoriteProducts.as_view()),
+  path('createrating/', views.CreateRating.as_view()),
 ]

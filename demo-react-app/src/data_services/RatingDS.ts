@@ -8,16 +8,17 @@ const url = "ratings/";
 
 
 const create = (
-  user: number,
-  ratingamount: number,
-  commentaire: string,
-  product: number
+  ratingamount_form: number,
+  commentaire_form: string,
+  product_form: number
+  
 ): Promise<AxiosResponse<IRating>> => (
   CustomAxios.post<unknown, AxiosResponse<IRating>>(
-    'ratings/create/', { user,
-      ratingamount,
-      commentaire,
-      product }
+    'createrating/', 
+    { 
+      ratingamount : ratingamount_form,
+      commentaire : commentaire_form,
+      product : product_form }
   )
 );
 

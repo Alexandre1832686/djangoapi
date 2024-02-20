@@ -31,7 +31,7 @@ class Product(models.Model):
 class Rating(models.Model):
   
   ratingamount = models.IntegerField(default=0)
-  user = models.ForeignKey(User, related_name='userid', on_delete=models.PROTECT, verbose_name = "userid")
+  user = models.ForeignKey(User, related_name='user', on_delete=models.PROTECT, verbose_name = "user")
   commentaire = models.CharField(max_length=200, default="")
   product = models.ForeignKey(Product, on_delete=models.PROTECT,verbose_name = "product",related_name='product')
 

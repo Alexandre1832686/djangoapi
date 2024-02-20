@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useParams } from "react-router-dom";
 import * as yup from "yup";
 import {
   Alert,
@@ -14,6 +15,8 @@ import {
   Rating,
   Link,
   Typography,
+  Hidden,
+  TextField
 } from "@mui/material";
 import {
   Visibility as VisibilityIcon,
@@ -22,6 +25,7 @@ import {
 
 import FormTextField from "../controls/FormTextField";
 import RatingDS from "../../data_services/RatingDS";
+import IRating from "../../data_interfaces/IRating";
 
 
 
@@ -31,19 +35,13 @@ const formSchema = yup.object().shape({
       .default("")
       .required()
       .max(200, "Le commentaire doit contenir au plus 200 caractères"),
-    ratingamount: yup.number().default(0),
-    product: yup.number().required().default(0),
-    user: yup.number().required().default(1)
-    
   });
 
 
   
 type FormRatingFields = {
-    user: number
-    ratingamount: number;
+    
     commentaire: string;
-    product: number
   };
 
 
@@ -53,7 +51,11 @@ type FormRatingFields = {
 
 function Evaluation(): React.JSX.Element {
     const navigate: NavigateFunction = useNavigate();
-    
+    const { id = "0" } = useParams();
+    const prodid: number = parseInt(id, 10);
+
+    const [ratingValue, setRatingValue] = useState<number>(0);
+
     const {
         formState: { errors },
         handleSubmit,
@@ -65,7 +67,12 @@ function Evaluation(): React.JSX.Element {
     
     const handleFormSubmit = (data: FormRatingFields): void => {
         
-        RatingDS.create(data.user, data.ratingamount, data.commentaire, data.product)
+        RatingDS.create(
+          ratingValue,
+          data.commentaire,
+          prodid
+          
+        )
           .then(() => {
             navigate("../");
           })
@@ -101,12 +108,11 @@ return (
      
      <Rating
         name="simple-controlled"
-        
         onChange={(event, newValue) => {
-            
+          setRatingValue(newValue !== null ? newValue : 0)
         }}
-        />
-      
+      />
+
       <Button
         color="primary"
         fullWidth

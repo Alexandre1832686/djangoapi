@@ -22,7 +22,7 @@ class RatingViewSet(ModelViewSet):
   permission_classes = [IsAuthenticatedOrReadOnly]
   queryset = Rating.objects.all().order_by('id')
   serializer_class = RatingSerializer
-  http_method_names = ['get']
+  http_method_names = ['get','post']
 
 
 class ProductViewSet(ModelViewSet):
@@ -47,7 +47,22 @@ class GetAllRatingbyproduct(APIView):
   def get(self, request, productid):
     
     ratings = Rating.objects.filter(product=productid)
-    return Response(ratings.values(), status=status.HTTP_200_OK)
+    ratings_serializer = RatingSerializer(ratings, many=True)
+    return Response(ratings_serializer.data, status=status.HTTP_200_OK)
+  
+class CreateRating(APIView):
+  permission_classes = [IsAuthenticatedOrReadOnly]
+  http_method_names = ['post']
+
+  def post(self, request):
+    rating = request.data
+    rating["user"] = request.user.id
+    serializer = RatingSerializer(data=rating, context={'request': request}, )
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+    
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
+  
 
 
 class MyFavoriteProducts(APIView):

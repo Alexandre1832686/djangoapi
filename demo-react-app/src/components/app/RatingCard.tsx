@@ -16,12 +16,13 @@ type RatingCardProps = {
 };
 
 function RatingCard({ rating }: RatingCardProps): React.JSX.Element {
- 
+  console.log("RATING", rating);
+
   return (
     <Card sx={{ marginBottom: 2 }}>
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color="text.secondary">
-          {rating.user}
+          {rating.user_name}
         </Typography>
         <Typography sx={{ fontSize: 14 }} color="text.primary">
           {rating.commentaire}

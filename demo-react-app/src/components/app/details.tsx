@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Grid, Typography,Box,Button } from "@mui/material";
+import { Grid, Typography,Box,Button, Hidden } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import RatingDS from "../../data_services/RatingDS";
@@ -32,12 +32,10 @@ function DetailProduit(): React.JSX.Element {
           err.response
         );
       });
-  }, []);
 
-  useEffect(() => {
     RatingDS.getAll(prodid)
       .then((response) => {
-        console.log("Product loaded", response.data);
+        console.log("Rating loaded", response.data);
         SetRating(response.data);
       })
       .catch((err) => {
@@ -48,6 +46,8 @@ function DetailProduit(): React.JSX.Element {
         );
       });
   }, []);
+
+
   
   
 
@@ -80,6 +80,7 @@ function DetailProduit(): React.JSX.Element {
       {rating.map((rating) => (
         <Grid key={`rating-${rating.id}`} item xs={12} sm={6} lg={4}>
           <RatingCard rating={rating} />
+          
         </Grid>
       ))}
     </Grid>
