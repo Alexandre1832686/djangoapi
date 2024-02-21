@@ -28,6 +28,10 @@ const logout = (): Promise<boolean> => {
   return promise;
 }
 
+const get = (): Promise<AxiosResponse<IUser>> => (
+  CustomAxios.get(`auth/account-info/me`)
+);
+
 const register = (
   firstname: string,
   lastname: string,
@@ -44,6 +48,7 @@ const AccountDS = {
   login,
   logout,
   register,
+  get,
 }
 
 export default AccountDS;

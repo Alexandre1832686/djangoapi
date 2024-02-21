@@ -1,0 +1,85 @@
+-----
+Pour connaître la version de python installée (PowerShell):
+python --version
+
+-----
+Créer un environnement virtuel (PowerShell) :
+Dans le répertoire du projet :
+python -m venv .venv
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+
+-----
+Activer un environnement virtuel (PowerShell) :
+Dans le répertoire du projet :
+.venv/Scripts/Activate.ps1
+
+-----
+MAJ de pip:
+python -m pip install --upgrade pip
+
+-----
+Installer Django:
+pip install django
+
+-----
+Pour voir la version de Django installée:
+python -m django --version
+
+-----
+Pour générer requirements.txt :
+Dans le répertoire du projet (environnement virtuel):
+pip freeze > requirements.txt
+
+-----
+Pour restorer les packages :
+Dans le répertoire du projet (environnement virtuel):
+pip install -r requirements.txt
+
+-----
+Installer la librairie mysqlclient (pour MySQL):
+pip install mysqlclient
+
+-----
+Installer la librairie psycopg2 (pour PostgreSQL) :
+pip install psycopg2
+
+-----
+Créer la structure d'un projet Django (après, se déplacer dans le répertoire racine de demo_project) :
+django-admin startproject demo_project
+
+-----
+Lancer le serveur (dans un projet Django) :
+python manage.py runserver
+
+-----
+Appliquer les migrations (dans un projet Django) :
+python manage.py migrate
+
+-----
+Créer une nouvelle application :
+django-admin startapp demo_app
+
+-----
+Vérifier la migration Django :
+python manage.py showmigrations
+
+-----
+Générer la migration Django :
+python manage.py makemigrations
+
+-----
+Ouvrir la console Django :
+python manage.py shell
+
+-----
+Créer un superuser dans Django (admin) :
+python manage.py createsuperuser
+
+-----
+Exécuter les tests unitaires Django :
+python manage.py tests
+
+-----
+https://pypi.org/project/django-mathfilters/
+pip install django-mathfilters
+Then add mathfilters to your INSTALLED_APPS.

@@ -6,7 +6,10 @@ from demo_auth_app.views import \
   AccountUpdateViewSet, \
   TokenViewSet, \
   RegisterViewSet, \
-  TokenRefreshViewSet
+  TokenRefreshViewSet,\
+  UserViewSet
+
+from demo_auth_app import views
 
 
 # Seulement pour modifier le nom du router (Api Root --> Api Auth)
@@ -22,6 +25,7 @@ router = AuthRouter()
 
 # Appeler "account-password-update/me/" (put) pour modifier le mot de passe du compte connecté
 router.register(r'account-password-update', AccountPasswordUpdateViewSet, basename='account-password-update'),
+router.register(r'account-info', UserViewSet, basename='account-info'),
 
 # Appeler "account-update/me/" (put) pour modifier le compte connecté
 # Appeler "account-update/get-current-user/" (post) pour récupérer les infos de compte

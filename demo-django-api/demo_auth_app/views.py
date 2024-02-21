@@ -4,16 +4,19 @@ from rest_framework.decorators import action
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateModelMixin
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.viewsets import ModelViewSet, GenericViewSet, ViewSet
 from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework.views import APIView
 
 from demo_auth_app.serializers import \
   AccountPasswordUpdateSerializer, \
   RegisterSerializer, \
   UserSerializer, \
   TokenSerializer
+
+
 
 
 class AccountPasswordUpdateViewSet(ModelViewSet):
@@ -126,7 +129,6 @@ class TokenRefreshViewSet(ViewSet, TokenRefreshView):
 class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericViewSet):
   serializer_class = UserSerializer
   queryset = User.objects.all()
-  lookup_field = "username"
 
   def get_queryset(self, *args, **kwargs):
       return self.queryset.filter(id=self.request.user.id)
