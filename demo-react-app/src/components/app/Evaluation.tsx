@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -45,16 +45,21 @@ type FormRatingFields = {
   };
 
 
+  type Edit = {
+    
+    idNote: number;
+    TextBouton:string
+  };
 
 
   
 
-function Evaluation(): React.JSX.Element {
-    const navigate: NavigateFunction = useNavigate();
+function Evaluation({idNote,TextBouton}:Edit): React.JSX.Element {
     const { id = "0" } = useParams();
     const prodid: number = parseInt(id, 10);
-
     const [ratingValue, setRatingValue] = useState<number>(0);
+
+    
 
     const {
         formState: { errors },
@@ -65,17 +70,17 @@ function Evaluation(): React.JSX.Element {
         resolver: yupResolver(formSchema),
       });
     
-    const handleFormSubmit = (data: FormRatingFields): void => {
-        
+      var data : FormRatingFields
+
+    const handleFormSubmit =(data: FormRatingFields): void => {
+      if(idNote == 0) 
+      { 
         RatingDS.create(
           ratingValue,
           data.commentaire,
           prodid
           
         )
-          .then(() => {
-            navigate("../");
-          })
           .catch((err) => {
             console.log(
               "ERROR: An error occurred during sign in",
@@ -83,48 +88,71 @@ function Evaluation(): React.JSX.Element {
               err.response
             );
           });
-      };
-
-
-return (
-    <>
-    <Typography component="h1" variant="h5">
-      Laisser un commentaire
-    </Typography>
-    <Box
-      component="form"
-      noValidate
-      onSubmit={handleSubmit(handleFormSubmit)}
-      sx={{ mt: 1, width: "100%" }}
-    >
-      <FormTextField
-        
-        autoFocus
-        
-        label={"Commentaire"}
-        margin="normal"
-        registerReturn={register("commentaire")}
-      />
-     
-     <Rating
-        name="simple-controlled"
-        onChange={(event, newValue) => {
-          setRatingValue(newValue !== null ? newValue : 0)
-        }}
-      />
-
-      <Button
-        color="primary"
-        fullWidth
-        sx={{ mb: 2, mt: 3 }}
-        type="submit"
-        variant="contained"
-      >
-        Envoyer l'évaluation
-      </Button>
+          window.location.reload()
+        }
       
-    </Box>
-  </>
-)
-}
+      else
+      {
+        RatingDS.edit(
+          idNote,
+          ratingValue,
+          data.commentaire,
+          prodid
+          
+        )
+          .catch((err) => {
+            console.log(
+              "ERROR: An error occurred during sign in",
+              err,
+              err.response
+            );
+          });
+          window.location.reload()
+        }
+      }
+    
+      console.log(TextBouton)
+
+
+        return (
+            <>
+            <Typography component="h1" variant="h5">
+              Laisser un commentaire
+            </Typography>
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleSubmit(handleFormSubmit)}
+              sx={{ mt: 1, width: "100%" }}
+            >
+              <FormTextField
+                
+                autoFocus
+                
+                label={"Commentaire"}
+                margin="normal"
+                registerReturn={register("commentaire")}
+              />
+            
+            <Rating
+                name="simple-controlled"
+                precision={1}
+                onChange={(event, newValue) => {
+                  setRatingValue(newValue !== null ? newValue : 0)
+                }}
+              />
+
+              <Button
+                color="primary"
+                fullWidth
+                sx={{ mb: 2, mt: 3 }}
+                type="submit"
+                variant="contained"
+              >
+                {TextBouton}
+              </Button>
+            </Box>
+          </>
+        )
+      }
 export default Evaluation;

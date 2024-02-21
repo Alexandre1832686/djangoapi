@@ -34,7 +34,6 @@ root.render(
             <Route path="" element={<Dashboard />} />
             <Route path="category/:id" element={<CategoryView />} />
               <Route path="product/:id" element={<DetailProduit />} />
-                <Route path="product/:id/evaluation" element={<Evaluation />} />
             <Route path="" element={<ProtectedRoutes />}>
             <Route path="user/me" element={<Me />} />
               <Route
